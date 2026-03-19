@@ -1,0 +1,38 @@
+[[opener.cursor]]
+run = 'cursor "%s"'
+desc = "Cursor"
+block = false
+orphan = true
+for = "unix"
+
+[[opener.csvlens]]
+run = 'csvlens "%s"'
+desc = "csvlens"
+block = true
+for = "unix"
+
+[open]
+prepend_rules = [
+  { name = "*.csv",                 use = ["csvlens", "cursor", "open"] },
+  { mime = "text/csv",              use = ["csvlens", "cursor", "open"] },
+  { mime = "text/*",                use = ["cursor", "open"] },
+  { mime = "application/json",      use = ["cursor", "open"] },
+  { mime = "application/javascript",use = ["cursor", "open"] },
+  { mime = "application/x-sh",      use = ["cursor", "open"] },
+  { mime = "application/toml",      use = ["cursor", "open"] },
+  { mime = "application/xml",       use = ["cursor", "open"] },
+]
+
+[plugin]
+prepend_previewers = [
+  # CSV — 用 mlr 對齊欄位
+  { name = "*.csv",    run = "csv" },
+  { mime = "text/csv", run = "csv" },
+  # ZIP / archive
+  { mime = "application/zip",            run = "archive" },
+  { mime = "application/x-tar",          run = "archive" },
+  { mime = "application/x-bzip2",        run = "archive" },
+  { mime = "application/gzip",           run = "archive" },
+  { mime = "application/x-7z-compressed", run = "archive" },
+  { mime = "application/x-rar",          run = "archive" },
+]
